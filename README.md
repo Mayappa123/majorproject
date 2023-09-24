@@ -15,5 +15,6 @@ git branch - used to check current branch..
 git checkout "branch name" - used to switch branch..
 git checkout -b 'branch name' - used to create new branch..
 git branch -d 'branch name' - used to  delete a branch..
+git push --set-upstream origin 'branch name' - used to set new upstream branch
 
 #Created by mayappa Pujari...
