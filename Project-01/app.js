@@ -13,11 +13,11 @@ main()
 })
 .catch( (err)=> {
     console.log('err to connect database')
-})
+});
 
 async function main() {
     await mongoose.connect(MONGO_URL);
-}
+};
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -36,12 +36,10 @@ app.get('/listings', async(req, res) => {
 });
 
 
-
 //new route
 app.get('/listings/new', (req, res) => {
     res.render('./listings/new.ejs')
 });
-
 
 
 //show route
@@ -50,7 +48,6 @@ app.get('/listings/:id', async(req, res) => {
     const listing = await Listing.findById(id);
     res.render('./listings/show.ejs', {listing})
 });
-
 
 
 //create route
@@ -70,7 +67,6 @@ app.get('/listings/:id/edit', async(req, res) => {
 });
 
 
-
 //update route
 app.put('/listings/:id', async(req, res) => {
     let {id} = req.params;
@@ -79,34 +75,16 @@ app.put('/listings/:id', async(req, res) => {
 });
 
 
-
 //delete route
 app.delete('/listings/:id', async(req, res) => {
     let {id} = req.params;
     let deletedListing = await Listing.findByIdAndDelete(id);
     console.log(deletedListing);
     res.redirect('/listings');
+});
 
-})
-
-
-
-
-// app.get( '/testListing', async(req, res)=> {
-//     let sampleListing = new Listing ( {
-//         title: 'my new villa',
-//         description: 'by the beach',
-//         price: 1200,
-//         location: 'calangute, Goa',
-//         country: 'India'
-//     });
-
-//     await sampleListing.save()
-//     console.log('sample saved')
-//     res.send('sucessful testing')
-// })
 
 app.listen( 8080, () => {
     console.log("Server is running on port 8080 ");
-})
+});
 
