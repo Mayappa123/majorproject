@@ -1,3 +1,14 @@
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif !important;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.container{
+    flex: 1;
+}
+
 /* navbar */
 .navbar {
     height: 5 rem;
@@ -33,8 +44,8 @@
 }
 
 .f-info-socials i {
-    font-size: 1.2 rem;
-    margin-right: 1 rem;
+    padding-right: 20px;
+    padding-top: 5px;
 }
 
 .f-info {
@@ -46,3 +57,101 @@
     justify-content: center;
     align-items: space-evenly;
 }
+
+.f-info-links a {
+    padding-right: 15px;
+    padding-top: 5px;
+}
+
+.f-info-brand {
+    padding-top: 5px;
+}
+
+
+/* cards */
+
+.card {
+    border: none !important;
+    margin-bottom: 2 rem;
+}
+
+.card-img-top {
+    border-radius: 1 rem !important;
+    width: 100% !important;
+    object-fit: cover !important;   
+}
+
+
+.pic {
+    border-radius: 1rem !important;
+}
+
+.card-body {
+    padding: 0 !important;
+    margin-bottom: 1rem;
+}
+
+.card-text p {
+    font-weight: 400 !important;
+}
+
+.listing-link {
+    text-decoration: none;
+    color: black;
+}
+
+.card-img-overlay {
+    opacity: 0;
+}
+
+.card-img-overlay:hover {
+    opacity: 0.2;
+    background-color: white;
+}
+
+
+/* new-page */
+
+label {
+    font-weight: 600 !important;
+}
+
+.add-btn {
+    background-color: #fe424d !important;
+    border: none !important;
+}
+
+.edit-btn {
+    background-color: #fe424d !important;
+    border: none !important;
+}
+
+
+/* show page */
+.show-img {
+    height: 30vh;
+    border-radius: 1rem !important;
+}
+
+
+.btns {
+    display: flex;
+}
+
+.edit {
+    height: 38px !important;
+    background-color: blue !important;
+}
+
+.delete {
+    width: 100px !important;
+    background-color: red !important;
+}
+
+.show-card {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+
+
