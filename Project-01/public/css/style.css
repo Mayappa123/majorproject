@@ -153,5 +153,28 @@ label {
     padding-right: 0;
 }
 
+.search-listings {
+    margin-top: 14px;
+    margin-left: 15px;
+    color: black;
+}
+
+.search-bar {
+    margin-top: 8px;
+    margin-left: 15px;
+}
+
+.search-input {
+    border-radius: 12px !important;
+}
+
+.search-btn {
+    border-radius: 6px !important;
+    color: white;
+    background-color: black;
+}
+
+
+
 
 

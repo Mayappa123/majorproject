@@ -14,6 +14,11 @@
                 <a class="nav-link" href="/">Home</a>
                 <a class="nav-link" href="/listings">All Listings</a>
                 <a class="nav-link" href="/listings/new">Add Listing</a>
+                <!-- <a href="/listing/search"><i class="fa-solid fa-magnifying-glass search-listings"></i></a> -->
+                <form action="/listings/search" method="GET" class="search-bar">
+                    <input type="text" name="country" placeholder="search" class="search-input">
+                    <button type="submit" class="search-btn">Search</button>
+                </form>
            </div>
         </div>
     </div>

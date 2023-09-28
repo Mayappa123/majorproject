@@ -87,6 +87,19 @@ app.delete('/listings/:id', async(req, res) => {
 });
 
 
+//search route
+app.get('/listings/search', async (req, res) => {
+    try {
+      const { country } = req.query;
+      const listings = await Listing.find({ country }); // Query listings by country
+      res.render('./listings/search.ejs', { listings, country });
+    } catch (err) {
+      console.error(err);
+      res.redirect('/listings');
+    }
+});
+
+
 app.listen( 8080, () => {
     console.log("Server is running on port 8080 ");
 });

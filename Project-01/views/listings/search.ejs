@@ -1,0 +1,34 @@
+<% layout("/layouts/boilerplate") %>
+
+<h1>Search Results for Country: <%= country %></h1>
+<ul>
+    <% if (results.length === 0) { %>
+        <p>No results found for <%= country %></p>
+    <% } else { %>
+        <% results.forEach(result => { %>
+            <div class="card col">
+                <!-- Render your search result content here -->
+                <a href="/listings/<%= result.country %>" class="listing-link">
+                    <img 
+                        class="card-img-top pic" 
+                        src="<%= result.image %>" 
+                        alt="listing_image" 
+                        style="height: 17.5rem" 
+                    >
+                    <div class="card-img-overlay"></div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            <b><%= result.title %></b> <br>
+                            &#x20B9 <%= result.price.toLocaleString('en-IN') %>/Day
+                        </p>
+                    </div>
+                </a>
+            </div>
+        <% }); %>
+    <% } %>
+</ul>
+
+
+
+
+
