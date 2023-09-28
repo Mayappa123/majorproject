@@ -88,15 +88,18 @@ app.delete('/listings/:id', async(req, res) => {
 
 
 //search route
-app.get('/listings/search', async (req, res) => {
-    try {
-      const { country } = req.query;
-      const listings = await Listing.find({ country }); // Query listings by country
-      res.render('./listings/search.ejs', { listings, country });
-    } catch (err) {
-      console.error(err);
-      res.redirect('/listings');
-    }
+app.get('/listings/:country', (req, res) => {
+    const country = req.params.country;
+
+    // Use the Mongoose model to find listings by country
+    Listing.find({ country })
+        .then(listings => {
+            res.render('search.ejs', listings, {country});
+        })
+        .catch(err => {
+            console.error('Error fetching listings:', err);
+            res.status(500).json({ error: 'An error occurred while fetching listings' });
+        });
 });
 
 

@@ -165,7 +165,15 @@ label {
 }
 
 .search-input {
-    border-radius: 12px !important;
+    border-radius: 5px !important;
+    border: 1px solid black;
+    width: 300px;
+    margin-top: 9px;
+    margin-left: 15px;
+}
+
+.search-input:hover {
+    border: 1px solid blue;
 }
 
 .search-btn {
@@ -173,6 +181,16 @@ label {
     color: white;
     background-color: black;
 }
+
+
+.navbar {
+    position: sticky !important;
+}
+
+
+
+
+
 
 
 
