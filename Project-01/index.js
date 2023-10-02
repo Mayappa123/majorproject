@@ -7,7 +7,7 @@ const methodOverride = require('method-override');
 app.use(methodOverride('_method'));
 app.use(express.urlencoded({extended:true}));
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'templates'));
+app.set('views', path.join(__dirname, '/templates'));
 
 const connection = mysql.createConnection( {
     host: 'localhost',
@@ -18,12 +18,12 @@ const connection = mysql.createConnection( {
 
 
 
-app.get('/', (req, res) => {
+app.get('/users', (req, res) => {
     let q1 = 'select * from user';
     try {
-        connection.query(q1, (err, user)=> {
+        connection.query(q1, (err, users)=> {
             if(err) throw err;
-            res.send({user});
+            res.render('show.ejs', {users});
         });
     }
     catch(err) {
