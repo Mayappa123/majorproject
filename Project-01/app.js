@@ -102,6 +102,10 @@ app.get('/listings/:country', (req, res) => {
         });
 });
 
+app.use((err, req, res, next) => {
+    res.send("Something went wrong...")
+})
+
 
 app.listen( 8080, () => {
     console.log("Server is running on port 8080 ");

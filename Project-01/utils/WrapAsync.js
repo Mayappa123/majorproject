@@ -1,0 +1,3 @@
+function WrapAsync(fn) => {
+    ret
+}
