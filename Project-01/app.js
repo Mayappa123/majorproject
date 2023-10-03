@@ -5,7 +5,8 @@ const path = require('path');
 const Listing = require("./models/listing.js");
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
-
+const WrapAsync = require('./utils/WrapAsync.js');
+const ExpressError = require('./utils/ExpressError.js')
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
 
 main()
@@ -54,12 +55,14 @@ app.get('/listings/:id', async(req, res) => {
 
 
 //create route
-app.post('/listings', async(req, res) => {
-    const newListing = new Listing(req.body.listing);
-    await newListing.save();
-    let listing = req.body.listing;
-    res.redirect("/listings");
-});
+app.post('/listings',
+    WrapAsync(async(req, res, next) => {
+        const newListing = new Listing(req.body.listing);
+        await newListing.save();
+        let listing = req.body.listing;
+        res.redirect("/listings");
+    })
+);
 
 
 //edit route
@@ -102,8 +105,14 @@ app.get('/listings/:country', (req, res) => {
         });
 });
 
+
+app.all("*", (req, res, next) => {
+    next(new ExpressError( 404, 'Page Not Found'));
+});
+
 app.use((err, req, res, next) => {
-    res.send("Something went wrong...")
+    let {StatusCode=500, Message='Something went wrong'} = err;
+    res.status(StatusCode).send(Message);
 })
 
 
