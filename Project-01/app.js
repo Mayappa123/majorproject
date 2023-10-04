@@ -8,6 +8,7 @@ const ejsMate = require('ejs-mate');
 const WrapAsync = require('./utils/WrapAsync.js');
 const ExpressError = require('./utils/ExpressError.js')
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+const {listingSchema} = require("./schema.js");
 
 main()
 .then( ()=> {
@@ -33,6 +34,18 @@ app.get( '/', (req, res)=> {
 });
 
 
+const ValidateListing = (req, res, next) => {
+    let {error} = listingSchema.validate(req.body);
+     
+    if(error) {
+        let errMsg = error.details.map((el) => el.message).join(",");
+        throw new ExpressError(400, errMsg);
+    } 
+    else {
+        next();
+    }
+}
+
 //index route
 app.get('/listings', async(req, res) => {
     const allListings = await Listing.find({});
@@ -47,15 +60,17 @@ app.get('/listings/new', (req, res) => {
 
 
 //show route
-app.get('/listings/:id', async(req, res) => {
-    let {id} = req.params;
-    const listing = await Listing.findById(id);
-    res.render('./listings/show.ejs', {listing})
-});
+app.get('/listings/:id',  
+    WrapAsync(async(req, res) => {
+        let {id} = req.params;
+        const listing = await Listing.findById(id);
+        res.render('./listings/show.ejs', {listing})
+    })
+);
 
 
 //create route
-app.post('/listings',
+app.post('/listings', ValidateListing,
     WrapAsync(async(req, res, next) => {
         const newListing = new Listing(req.body.listing);
         await newListing.save();
@@ -66,28 +81,33 @@ app.post('/listings',
 
 
 //edit route
-app.get('/listings/:id/edit', async(req, res) => {
+app.get('/listings/:id/edit',
+WrapAsync(async(req, res) => {
     let {id} = req.params;
     const listing = await Listing.findById(id);
     res.render('./listings/edit.ejs', {listing})
-});
+}));
 
 
 //update route
-app.put('/listings/:id', async(req, res) => {
-    let {id} = req.params;
-    await Listing.findByIdAndUpdate(id, {...req.body.listing});
-    res.redirect(`/listings/${id}`);
-});
+app.put('/listings/:id', ValidateListing,  
+    WrapAsync(async(req, res) => {
+        let {id} = req.params;
+        await Listing.findByIdAndUpdate(id, {...req.body.listing});
+        res.redirect(`/listings/${id}`);
+    })
+);
 
 
 //delete route
-app.delete('/listings/:id', async(req, res) => {
-    let {id} = req.params;
-    let deletedListing = await Listing.findByIdAndDelete(id);
-    console.log(deletedListing);
-    res.redirect('/listings');
-});
+app.delete('/listings/:id',  
+    WrapAsync(async(req, res) => {
+        let {id} = req.params;
+        let deletedListing = await Listing.findByIdAndDelete(id);
+        console.log(deletedListing);
+        res.redirect('/listings');
+    })
+);
 
 
 //search route
@@ -97,7 +117,7 @@ app.get('/listings/:country', (req, res) => {
     // Use the Mongoose model to find listings by country
     Listing.find({ country })
         .then(listings => {
-            res.render('search.ejs', listings, {country});
+            res.render('search.ejs', listings, { country});
         })
         .catch(err => {
             console.error('Error fetching listings:', err);
@@ -111,8 +131,9 @@ app.all("*", (req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-    let {StatusCode=500, Message='Something went wrong'} = err;
-    res.status(StatusCode).send(Message);
+    let {StatusCode=500, Message='Something went wrong...'} = err;
+    res.status(StatusCode).render('error.ejs', {Message});
+    // res.status(StatusCode).send(Message);
 })
 
 
