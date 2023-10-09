@@ -94,7 +94,7 @@ app.put('/listings/:id', ValidateListing,
     WrapAsync(async(req, res) => {
         let {id} = req.params;
         await Listing.findByIdAndUpdate(id, {...req.body.listing});
-        res.redirect(`/listings/${id}`);
+        res.redirect(`/listings/${id}`);a
     })
 );
 
