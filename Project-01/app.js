@@ -9,6 +9,7 @@ const WrapAsync = require('./utils/WrapAsync.js');
 const ExpressError = require('./utils/ExpressError.js')
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
 const {listingSchema} = require("./schema.js");
+const Review = require("./models/review.js");
 
 main()
 .then( ()=> {
@@ -64,6 +65,7 @@ app.get('/listings/:id',
     WrapAsync(async(req, res) => {
         let {id} = req.params;
         const listing = await Listing.findById(id);
+        // res.setHeader('Content-Type', 'text/html');
         res.render('./listings/show.ejs', {listing})
     })
 );
@@ -110,20 +112,16 @@ app.delete('/listings/:id',
 );
 
 
-//search route
-app.get('/listings/:country', (req, res) => {
-    const country = req.params.country;
+//review route
+app.post("/listings/:id/reviews", async(req, res) => {
+    let listing = Listing.findById(req.params.id);
+    let newReview = new Review(req.body.review);
 
-    // Use the Mongoose model to find listings by country
-    Listing.find({ country })
-        .then(listings => {
-            res.render('search.ejs', listings, { country});
-        })
-        .catch(err => {
-            console.error('Error fetching listings:', err);
-            res.status(500).json({ error: 'An error occurred while fetching listings' });
-        });
-});
+    listing.reviews.push(newReview);
+    await newReview.save();
+    await listing.save();
+    res.redirect(`../${req.params.id}`)
+})
 
 
 app.all("*", (req, res, next) => {
