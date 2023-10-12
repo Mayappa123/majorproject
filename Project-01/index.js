@@ -3,9 +3,7 @@ const multer = require('multer');
 const mysql = require('mysql2');
 const app = express();
 const path = require('path');
-// const file = require('fs')
 const methodOverride = require('method-override');
-// const upload = multer({dest: 'uploads/'})
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
@@ -17,7 +15,6 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({storage});
-
 
 app.use(methodOverride('_method'));
 app.use(express.urlencoded({extended:true}));
@@ -33,13 +30,13 @@ const connection = mysql.createConnection( {
 
 app.get('/', (req, res) => {
     return res.render('profile.ejs');
-})
+});
 
 app.post('/upload', upload.single('ProfileImage'), (req, res)=> {
     console.log(req.body);
-    console.log(req.file)
+    console.log(req.file);
     res.redirect('/');
-})
+});
 
 // app.get('/users', (req, res) => {
 //     let q1 = 'select * from user';
@@ -70,8 +67,8 @@ app.post('/upload', upload.single('ProfileImage'), (req, res)=> {
 //     }
 // });
 
-app.listen(8080, (req, res)=> {
-    console.log('app is listening at port 8080.')
+app.listen(8080, (req, res) => {
+    console.log('app is listening at port 8080.');
 });
 
 // let q2 = 'select * from user where '
