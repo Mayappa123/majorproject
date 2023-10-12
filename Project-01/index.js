@@ -48,7 +48,7 @@ app.post('/upload', upload.single('ProfileImage'), (req, res)=> {
 //     }
 //     catch(err) {
 //        console.log(err);
-//        res.send("some eror in DB...")
+//        res.send("some eror in DB...");
 //     };
 // });
 
@@ -59,7 +59,7 @@ app.post('/upload', upload.single('ProfileImage'), (req, res)=> {
 //         connection.query(q1, (err, result)=> {
 //             if(err) throw err;
 //             let user = result[0];
-//             res.render('edit.ejs', {user})
+//             res.render('edit.ejs', {user});
 //         })
 //     }
 //     catch(err) {
