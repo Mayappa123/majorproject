@@ -27,14 +27,15 @@ main()
 
 async function main() {
   await mongoose.connect(MONGO_URL);
-}
+};
 
 app.listen(8080,()=>{
     console.log("server is listening to port 8080");
 });
+
 app.get("/",(req,res)=>{
     res.send("Hi, I am root");
-})
+});
 
 const validateListing = (req,res,next)=>{
     let {error} = listingSchema.validate(req.body);
