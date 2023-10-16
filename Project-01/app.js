@@ -45,7 +45,7 @@ const sessionOptions = {
 app.use(session(sessionOptions));
 
 app.get( '/', (req, res)=> {
-    res.send('root is working')
+    res.send('root is working');
 });
 
 app.use('/listings', listings);
