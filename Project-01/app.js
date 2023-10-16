@@ -15,10 +15,10 @@ const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
 
 main()
 .then( ()=> {
-    console.log('connected')
+    console.log('connected');
 })
 .catch( (err)=> {
-    console.log('err to connect database')
+    console.log('err to connect database');
 });
 
 
