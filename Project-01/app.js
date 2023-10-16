@@ -6,6 +6,7 @@ const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const ExpressError = require('./utils/ExpressError.js');
 const session = require('express-session');
+const flash = require('connect-flash');
 
 const listings = require("./routes/listing.js");
 const reviews = require('./routes/review.js');
@@ -20,9 +21,11 @@ main()
     console.log('err to connect database')
 });
 
+
 async function main() {
     await mongoose.connect(MONGO_URL);
 };
+
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -30,6 +33,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(methodOverride("_method"));
 app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname, '/public')));
+
 
 const sessionOptions = {
     secret: 'mysupersecret',
@@ -42,11 +46,22 @@ const sessionOptions = {
     },
 };
 
-app.use(session(sessionOptions));
 
 app.get( '/', (req, res)=> {
     res.send('root is working');
 });
+
+
+app.use(session(sessionOptions));
+app.use(flash());
+
+
+app.use((req, res, next) => {
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+});
+
 
 app.use('/listings', listings);
 app.use('/listings/:id/reviews', reviews);
@@ -57,9 +72,10 @@ app.all("*", (req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-    let {StatusCode=500, Message='Something went wrong...'} = err;
-    res.status(StatusCode).render('error.ejs', {Message});
+    let {status=500, message = 'Something went wrong...'} = err;
+    res.status(status).render('error.ejs', {message});
 });
+
 
 app.listen( 8080, () => {
     console.log("Server is running on port 8080 ");
