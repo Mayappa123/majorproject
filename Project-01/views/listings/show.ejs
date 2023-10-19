@@ -8,10 +8,11 @@
         <div class="card-body">
             <p class="card-text"> 
                 <!-- <b></b><br> -->
-                <%= listing.description %><br>
-                &#x20B9 <%= listing.price.toLocaleString('en-IN') %><br>
-                <%= listing.location %><br>
-                <%= listing.country %>
+                <p>Owned By: <%= listing.owner.username %></p>
+                <p><%= listing.description %></p>
+                <p>&#x20B9 <%= listing.price.toLocaleString('en-IN') %></p>
+                <p><%= listing.location %></p>
+                <p><%= listing.country %></p>
             </p>
         </div>
     </div>

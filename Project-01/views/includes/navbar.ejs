@@ -14,12 +14,16 @@
                 <a class="nav-link" href="/">Home</a>
                 <a class="nav-link" href="/listings">All Listings</a>
                 <a class="nav-link" href="/listings/new">Add Listing</a>
-                
-                <!-- <form action="/listings/search" method="GET" class="search-bar">
-                    <input type="text" name="country" placeholder="search" class="search-input">
-                    <button type="submit" class="search-btn">Search</button>
-                </form> -->
            </div>
+            <div class="navbar-nav ms-auto">
+                <% if (!currUser) { %>
+                    <a class="nav-link" href="/signup">Signup</a>
+                    <a class="nav-link" href="/login">Login</a>
+                <% } %>
+                <% if(currUser) { %>
+                    <a class="nav-link" href="/logout">Logout</a>
+                <% } %>
+            </div>
         </div>
     </div>
 </nav>
