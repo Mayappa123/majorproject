@@ -9,11 +9,8 @@ const listingSchema = new Schema({
     },
     description: String,
     image: {
-        type: String,
-        default: "C:\Users\mayap\OneDrive\Desktop\My documents\home.jpg",
-        set: (v) => v === "" 
-        ? "C:\Users\mayap\OneDrive\Desktop\My documents\home.jpg" 
-        : v,
+        url: String,
+        filename: String,
     },
     price: Number,
     location: String,
