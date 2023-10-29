@@ -1,4 +1,7 @@
 <% layout("/layouts/boilerplate") %>
+<script>
+    const mapToken = "<%= process.env.MAP_TOKEN %>";
+</script>
 <div class="row mt-3">
     <div class="col-8 offset-3">
         <h3><%= listing.title %></h3>
@@ -29,8 +32,8 @@
     <% } %>
     
     <div class="col-8 offset-3 mb-3">
-        <hr>
         <% if (currUser) { %>
+        <hr>
         <h4>Leave a Review</h4>
         <form action="/listings/<%= listing.id %>/reviews" method="POST" novalidate class="needs-validation">
                 <!-- <input class="form-range" type="range" min="1" max="5" id="rating" name="review[rating]"> -->
@@ -51,26 +54,6 @@
                 <label for="rate5" title="Amazing">5 stars</label>
             </fieldset>
         </div>
-            <!-- <div class="mb-3 mt-3">
-                <label for="rating" class="form-label">Rating</label>
-                <input class="form-range" type="range" min="1" max="5" id="rating" name="review[Rating]">
-            </div>
-
-            <fieldset class="starability-slot">
-                <legend>First rating:</legend>
-                <input type="radio" id="no-rate" class="input-no-rate" name="reviewRating" value="0" checked aria-label="No rating." />
-                <input type="radio" id="first-rate1" name="reviewRating" value="1" />
-                <label for="first-rate1" title="Terrible">1 star</label>
-                <input type radio" id="first-rate2" name="reviewRating" value="2" />
-                <label for="first-rate2" title="Not good">2 stars</label>
-                <input type="radio" id="first-rate3" name="reviewRating" value="3" />
-                <label for="first-rate3" title="Average">3 stars</label>
-                <input type="radio" id="first-rate4" name="reviewRating" value="4" />
-                <label for="first-rate4" title="Very good">4 stars</label>
-                <input type="radio" id="first-rate5" name="reviewRating" value="5" />
-                <label for="first-rate5" title="Amazing">5 stars</label>
-            </fieldset> -->
-
             <div class="mb-3 mt-3">
                 <label for="comment" class="form-label">Comment</label>
                 <textarea class="form-control" name="review[comment]" id="comment" cols="30" rows="6" required></textarea>
@@ -81,8 +64,9 @@
         <% } %>
         
 
-        <p><b>All Reviews</b></p>
+        <% if(listing.reviews.length > 0) { %>
         <div class="row">
+            <p><b>All Reviews</b></p>
             <% for (review of listing.reviews) { %>
                 <div class="card col-5 ms-3 mb-3">
                     <div class="card-body">
@@ -96,5 +80,13 @@
                 </div>
             <% } %>
         </div>
+        <% } %>
+    </div>
+    <div class="col-6 offset-3 mb-3">
+        <h3>Where you'll be</h3>
+        <div id="map"></div>
+       
     </div>
 </div>
+
+<script src="/js/map.js"></script>
